@@ -1,6 +1,7 @@
 package org.ucvts.comics;
 
 import java.awt.CardLayout;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +12,9 @@ import org.ucvts.comics.view.CartView;
 import org.ucvts.comics.view.InventoryView;
 import org.ucvts.comics.view.ProductView;
 import org.ucvts.comics.view.OrderView;
+import org.ucvts.comics.view.OrderList;
+import org.ucvts.comics.view.CustomerList;
+import org.ucvts.comics.view.OrderEdit;
 
 @SuppressWarnings("serial")
 public class MidtownComics extends JFrame {
@@ -19,17 +23,21 @@ public class MidtownComics extends JFrame {
     public static final int ProductViewIndex = 1;
     public static final int CartViewIndex = 2;
     public static final int OrderViewIndex = 3;
+    public static final int OrderEditIndex = 4;
 
     public static final String InventoryView = "InventoryView";
     public static final String ProductView = "ProductView";
     public static final String CartView = "CartView";
     public static final String OrderView = "OrderView";
+    public static final String OrderList = "OrderList";
+    public static final String CustomerList = "CustomerList";
+    public static final String OrderEdit = "OrderEdit";
 
     /**
      * Initializes the application views and frame.
      */
 
-    public void init() {
+    public void init() throws SQLException {
         JPanel views = new JPanel(new CardLayout());
         ViewManager manager = ViewManager.getInstance(views);
 
@@ -39,6 +47,9 @@ public class MidtownComics extends JFrame {
         views.add(new ProductView(manager), ProductView);
         views.add(new CartView(manager), CartView);
         views.add(new OrderView(manager), OrderView);
+        views.add(new OrderList(manager), OrderList);
+        views.add(new CustomerList(manager), CustomerList);
+        views.add(new OrderEdit(manager), OrderEdit);
 
         // configure application frame
 

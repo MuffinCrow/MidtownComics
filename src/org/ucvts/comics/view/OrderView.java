@@ -4,14 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import org.ucvts.comics.controller.ViewManager;
+import org.ucvts.comics.view.OrderList;
 
 @SuppressWarnings("serial")
 public class OrderView extends JPanel implements ActionListener {
@@ -20,6 +19,7 @@ public class OrderView extends JPanel implements ActionListener {
     private PaymentForm form;
     private JLabel total;
     private JButton submit;
+    private JScrollPane scroll;
 
     public OrderView(ViewManager manager) {
         super(new BorderLayout());
@@ -77,7 +77,11 @@ public class OrderView extends JPanel implements ActionListener {
         JButton source = (JButton) e.getSource();
 
         if (source.equals(submit)) {
-            manager.submitOrder();
+            try {
+                manager.submitOrder();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
     }
 }

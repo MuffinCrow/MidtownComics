@@ -20,6 +20,8 @@ public class InventoryView extends JPanel implements ActionListener {
 
     private ViewManager manager;
     private JScrollPane scroll;
+    private JButton viewCustomer;
+    private JButton viewOrder;
     private JButton addProduct;
     private JButton viewCart;
 
@@ -65,9 +67,17 @@ public class InventoryView extends JPanel implements ActionListener {
 
         JLabel label = new JLabel("Midtown Comics");
         label.setFont(new Font("DialogInput", Font.BOLD, 21));
-        label.setBorder(new EmptyBorder(15, 15, 10, 0));
+        label.setBorder(new EmptyBorder(15, 15, 10, 10));
 
-        panel.add(label, BorderLayout.WEST);
+        viewCustomer = new JButton("Customers");
+        viewCustomer.addActionListener(this);
+
+        viewOrder = new JButton("Orders");
+        viewOrder.addActionListener(this);
+
+        panel.add(label, BorderLayout.CENTER);
+        panel.add(viewCustomer, BorderLayout.WEST);
+        panel.add(viewOrder, BorderLayout.EAST);
         this.add(panel, BorderLayout.NORTH);
     }
 
@@ -123,6 +133,10 @@ public class InventoryView extends JPanel implements ActionListener {
             manager.switchTo(MidtownComics.ProductView);
         } else if (source.equals(viewCart)) {
             manager.switchTo(MidtownComics.CartView);
+        } else if (source.equals(viewCustomer)) {
+            manager.switchTo(MidtownComics.CustomerList);
+        } else if (source.equals(viewOrder)) {
+            manager.switchTo((MidtownComics.OrderList));
         }
     }
 }

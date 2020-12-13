@@ -8,14 +8,12 @@ import java.util.List;
 
 import org.ucvts.comics.MidtownComics;
 import org.ucvts.comics.dao.DAO;        // this is a new import statement
+import org.ucvts.comics.dao.OrderDAO;
 import org.ucvts.comics.dao.ProductDAO; // this is a new import statement
 import org.ucvts.comics.model.Order;
 import org.ucvts.comics.model.OrderItem;
 import org.ucvts.comics.model.Product;
-import org.ucvts.comics.view.CartView;
-import org.ucvts.comics.view.InventoryView;
-import org.ucvts.comics.view.OrderView;
-import org.ucvts.comics.view.ProductView;
+import org.ucvts.comics.view.*;
 
 public class ViewManager {
 
@@ -311,7 +309,7 @@ public class ViewManager {
     }
 
     /*
-     * Clears the current order in the OrverView.
+     * Clears the current order in the OrderView.
      */
 
     private void clearOrder() {
@@ -333,5 +331,29 @@ public class ViewManager {
         }
 
         return -1;
+    }
+
+    public void attachOrder(Order order) {
+        ((OrderEdit) views.getComponent(MidtownComics.OrderEditIndex)).setOrder(order);
+    }
+
+    public void modifyOrder(Order order) {
+        try {
+            OrderDAO.updateOrder(order);
+
+            detachOrder();
+            refreshOrderList();
+            switchTo(MidtownComics.OrderList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void detachOrder() {
+        ((OrderEdit) views.getComponent(MidtownComics.OrderEditIndex)).setOrder(null);
+    }
+
+    private void refreshOrderList() throws SQLException {
+        ((OrderList) views.getComponent(MidtownComics.OrderViewIndex)).refreshOrderList();
     }
 }

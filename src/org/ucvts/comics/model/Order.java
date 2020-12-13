@@ -179,4 +179,14 @@ public class Order {
             this.total = total;
         }
     }
+
+    public long getCustomerId() { return this.customer.getCustomerId(); }
+
+    public void  setCustomerId(long customerId) { this.customer.setCustomerId(customerId);}
+
+    public void setOrderId(long orderId) { this.orderId = orderId; }
+
+    public void setOrderDate(long orderDate) { this.orderDate = orderDate; }
+
+    public void setTotal(double total) { this.total = total; }
 }
