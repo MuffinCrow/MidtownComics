@@ -2,10 +2,13 @@ package org.ucvts.comics.controller;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.ucvts.comics.MidtownComics;
+import org.ucvts.comics.dao.DAO;        // this is a new import statement
+import org.ucvts.comics.dao.ProductDAO; // this is a new import statement
 import org.ucvts.comics.model.Order;
 import org.ucvts.comics.model.OrderItem;
 import org.ucvts.comics.model.Product;
@@ -19,11 +22,13 @@ public class ViewManager {
     private static ViewManager manager;
 
     private Container views;
-    private List<Product> inventory;
     private Order order;
 
     /*
      * A private constructor, implementing the singleton pattern.
+     *
+     * The singleton pattern guarantees that only a single instance
+     * of the ViewManager class will every be instantiated.
      *
      * @param views
      */
@@ -31,7 +36,15 @@ public class ViewManager {
     private ViewManager(Container views) {
         this.views = views;
 
-        this.populate();
+        // rudimentary error handling. a more mature application
+        // would handle database exceptions more gracefully, but
+        // we'll just print the stack trace for now.
+
+        try {
+            DAO.buildDatabase();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -84,11 +97,15 @@ public class ViewManager {
      */
 
     public void addProductToInventory(Product product) {
-        inventory.add(product);
+        try {
+            ProductDAO.insertProduct(product);  // this is new, add product to the database
 
-        detachProduct();
-        refreshInventoryList();
-        switchTo(MidtownComics.InventoryView);
+            detachProduct();
+            refreshInventoryList();
+            switchTo(MidtownComics.InventoryView);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -98,11 +115,15 @@ public class ViewManager {
      */
 
     public void modifyProductInInventory(Product product) {
-        inventory.set(findProductInInventory(product), product);
+        try {
+            ProductDAO.updateProduct(product);  // this is new, updates product in the database
 
-        detachProduct();
-        refreshInventoryList();
-        switchTo(MidtownComics.InventoryView);
+            detachProduct();
+            refreshInventoryList();
+            switchTo(MidtownComics.InventoryView);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -112,11 +133,15 @@ public class ViewManager {
      */
 
     public void removeProductFromInventory(Product product) {
-        inventory.remove(product);
+        try {
+            ProductDAO.deleteProduct(product);  // this is new, deletes product from the database
 
-        detachProduct();
-        refreshInventoryList();
-        switchTo(MidtownComics.InventoryView);
+            detachProduct();
+            refreshInventoryList();
+            switchTo(MidtownComics.InventoryView);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -214,41 +239,47 @@ public class ViewManager {
     }
 
     /**
-     * Submits an order, which will modify the product in inventory.
+     * Submits an order. Aside from updating the inventory, this
+     * is all for show. We'll change that later.
+     *
+     * @throws SQLException
      */
 
-    public void submitOrder() {
+    public void submitOrder() throws SQLException {
         for (int i = 0; i < order.getItems().size(); i++) {
             OrderItem item = order.getItems().get(i);
             Product product = item.getProduct();
             int quantity = item.getQuantity();
+            int copies = product.getCopies();
 
-            int index = findProductInInventory(product);
-            if (index != -1) {
-                int copies = product.getCopies();
-                product.setCopies(copies - quantity);
-
-                modifyProductInInventory(product);
-            }
+            product.setCopies(copies - quantity);
+            modifyProductInInventory(product);
         }
 
+        order = null;
         clearOrder();
     }
 
     /**
-     * Returns the list of products in inventory.
+     * Retrieves the inventory.
      *
-     * @return inventory
+     * @return the inventory
      */
 
     public List<Product> getInventory() {
-        return inventory;
+        try {
+            return ProductDAO.getProducts();    // this is new, retrieves all products from the database
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 
     /**
-     * Returns the Order.
+     * Retrieves the current order.
      *
-     * @return order
+     * @return the current order
      */
 
     public Order getOrder() {
@@ -256,29 +287,7 @@ public class ViewManager {
     }
 
     /*
-     * Populates a set of products in inventory. Ordinarily, this sort of thing
-     * would be handled by a database.
-     */
-
-    private void populate() {
-        if (inventory == null) {
-            inventory = new ArrayList<>();
-        }
-
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19630301L, 1, 19.99, 3));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19630510L, 2, 19.99, 7));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19630710L, 3, 19.99, 9));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19630910L, 4, 19.99, 12));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19631010L, 5, 19.99, 3));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19631110L, 6, 19.99, 7));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19631210L, 7, 19.99, 9));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19640110L, 8, 19.99, 12));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19640210L, 9, 19.99, 3));
-        inventory.add(new Product("The Amazing Spider-Man", "Stan Lee", 19640310L, 10, 19.99, 7));
-    }
-
-    /*
-     * Refreshes the inventory view when the list of products changes.
+     * Refreshes the inventory list in the InventoryView.
      */
 
     private void refreshInventoryList() {
@@ -286,7 +295,7 @@ public class ViewManager {
     }
 
     /*
-     * Refreshes the cart view when an item changes.
+     * Refreshes the cart in the CartView.
      */
 
     private void refreshCart() {
@@ -294,7 +303,7 @@ public class ViewManager {
     }
 
     /*
-     * Refreshes the order view when the order total changes.
+     * Updates the order total in the OrderView.
      */
 
     private void updateOrderTotal() {
@@ -302,7 +311,7 @@ public class ViewManager {
     }
 
     /*
-     * Refreshes the cart view when an order is submitted.
+     * Clears the current order in the OrverView.
      */
 
     private void clearOrder() {
@@ -310,32 +319,15 @@ public class ViewManager {
     }
 
     /*
-     * Finds a product in inventory.
+     * Finds an OrderItem in an Order.
      *
      * @param product the product we're looking for
-     * @return the index of the product if found
+     * @return the index of the item in the order
      */
 
-    private int findProductInInventory(Product product) {
-        for (int i = 0; i < inventory.size(); i++) {
-            if (inventory.get(i).getProductId() == product.getProductId()) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    /*
-     * Finds an item in an order.
-     *
-     * @param product the item we're looking for
-     * @return the index of the item if found
-     */
-
-    private int findItemInOrder(Product p) {
+    private int findItemInOrder(Product product) {
         for (int i = 0; i < order.getItems().size(); i++) {
-            if (order.getItems().get(i).getProduct().getProductId() == p.getProductId()) {
+            if (order.getItems().get(i).getProduct().getProductId() == product.getProductId()) {
                 return i;
             }
         }

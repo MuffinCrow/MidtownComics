@@ -154,4 +154,14 @@ public class Product {
     public void setCopies(int copies) {
         this.copies = copies;
     }
+
+    public void setProductId(long productId) { this.productId = productId; }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public void setAuthor(String author) { this.author = author; }
+
+    public void setReleaseDate(long releaseDate) { this.releaseDate = releaseDate; }
+
+    public void setIssue(int issue) { this.issue = issue; }
 }
