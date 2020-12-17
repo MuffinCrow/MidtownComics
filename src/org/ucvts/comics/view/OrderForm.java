@@ -5,15 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import org.ucvts.comics.MidtownComics;
 import org.ucvts.comics.controller.ViewManager;
 import org.ucvts.comics.model.Order;
+import org.ucvts.comics.dao.OrderDAO;
+import org.ucvts.comics.dao.CustomerDAO;
 
 @SuppressWarnings("serial")
-public class OrderForm extends JPanel implements ActionListener {
+public class OrderForm extends JPanel{
 
     private ViewManager manager;
     private JTextField orderIdField;
@@ -48,9 +53,7 @@ public class OrderForm extends JPanel implements ActionListener {
         status.setText(String.valueOf(order.getStatus()));
         total.setText(String.valueOf(order.getTotal()));
 
-        this.remove(scroll);
-
-        initItems();
+        initItems(order);
     }
 
     private void init(Order order) {
@@ -145,18 +148,102 @@ public class OrderForm extends JPanel implements ActionListener {
         JPanel body = new JPanel();
         body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
         body.setBorder(new EmptyBorder(15, 15, 15, 15));
+        body.setBounds(20, 335, 710, 200);
 
         for (int i = 0; i < order.getItems().size(); i++) {
-            body.add(new CartItemPanel(manager, order.getItems().get(i).getProduct()));
+            OrderFormItemPanel ofip = new OrderFormItemPanel(order.getItems().get(i));
+            this.add(body);
+        }
+    }
+
+    private String[] getMonths() {
+        return new String[]{
+                "--Month--",
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December"
+        };
+    }
+
+    private String[] getDays() {
+        String[] days = new String[32];
+
+        for (int i = 0; i <= 31; i++) {
+            if (i == 0) {
+                days[i] = "--Day--";
+            } else {
+                days[i] = String.valueOf(i);
+            }
         }
 
-        this.add(body);
+        return days;
     }
 
+    private String[] getYears() {
+        String[] years = new String[73];
 
+        for (int i = 1949; i <= 2021; i++) {
+            if (i == 1949) {
+                years[0] = "--Year--";
+            } else {
+                years[i - 1949] = String.valueOf(i);
+            }
+        }
 
-    @Override
+        return years;
+    }
+
+    private void clearFields() {
+        orderIdField.setText("");
+        customerIdField.setText("");
+        monthDropdown.setSelectedIndex(0);
+        dayDropdown.setSelectedIndex(0);
+        yearDropdown.setSelectedIndex(0);
+        status.setText("");
+        total.setText("");
+    }
+
+    private long parseOrderDate() {
+        int year = Integer.parseInt(yearDropdown.getSelectedItem().toString());
+        int month = monthDropdown.getSelectedIndex();
+        int day = dayDropdown.getSelectedIndex();
+
+        return Long.parseLong(String.format("%d%02d%02d", year, month, day));
+    }
+    public Order getOrderFromFields() {
+        System.out.println(parsePrice());
+        try {
+            return new Order(
+                    Long.parseLong(orderIdField.getText()),
+                    CustomerDAO.getCustomer(Long.parseLong(customerIdField.getText())),
+                    parseOrderDate(),
+                    status.getText(),
+                    OrderDAO.getOrder(Long.parseLong(orderIdField.getText())).getItems(),
+                    parsePrice()
+            );
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private double parsePrice() {
+        System.out.println(total.getText());
+        return Double.parseDouble(total.getText());
+    }
+
+    /*@Override
     public void actionPerformed(ActionEvent e) {
 
-    }
+    }*/
 }

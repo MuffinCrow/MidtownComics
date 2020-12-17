@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Dec 16 23:47:27 EST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0176-6f06-3a53-00001f305f68 
+Thu Dec 17 18:34:41 EST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0176-730e-3dca-00001f307448 
 on database directory C:\Users\dbotn\IdeaProjects\MidtownComics\midtowncomicsdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2626b418 
 Loaded from file:/C:/Users/dbotn/IdeaProjects/MidtownComics/lib/derby.jar
 java.vendor=Oracle Corporation
