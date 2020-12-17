@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import org.ucvts.comics.controller.ViewManager;
+import org.ucvts.comics.dao.OrderDAO;
+import org.ucvts.comics.model.Customer;
 import org.ucvts.comics.view.OrderList;
 
 @SuppressWarnings("serial")
@@ -78,6 +80,7 @@ public class OrderView extends JPanel implements ActionListener {
 
         if (source.equals(submit)) {
             try {
+                new PaymentForm().makeCustomerFromForm();
                 manager.submitOrder();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

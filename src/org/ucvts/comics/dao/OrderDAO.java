@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ucvts.comics.model.Order;
+import org.ucvts.comics.model.OrderItem;
 
 public class OrderDAO {
 
@@ -31,6 +32,7 @@ public class OrderDAO {
             order.setStatus(rs.getString(3));
             order.setTotal(rs.getDouble(4));
             order.setCustomerId(rs.getLong(5));
+            order.setItems((List<OrderItem>) rs.getObject(6));
         }
 
         rs.close();
@@ -56,6 +58,7 @@ public class OrderDAO {
             order.setStatus(rs.getString(3));
             order.setTotal(rs.getDouble(4));
             order.setCustomerId(rs.getLong(5));
+            order.setItems((List<OrderItem>) rs.getObject(5));
 
             orders.add(order);
         }
@@ -75,13 +78,15 @@ public class OrderDAO {
                         "   status, " +
                         "   total, " +
                         "   customerid, " +
-                        ") VALUES (?, ?, ?, ?)"
+                        "   items, " +
+                        ") VALUES (?, ?, ?, ?, ?)"
         );
 
         pstmt.setLong(1, order.getOrderDate());
         pstmt.setString(2, order.getStatus());
         pstmt.setDouble(3, order.getTotal());
         pstmt.setLong(4, order.getCustomerId());
+        pstmt.setObject(5, order.getItems());
 
         pstmt.executeUpdate();
         pstmt.close();
@@ -96,6 +101,7 @@ public class OrderDAO {
                         "   status = ?, " +
                         "   total = ?, " +
                         "   customerid = ?, " +
+                        "   items = ?" +
                         "WHERE id = ?"
         );
 
@@ -103,6 +109,7 @@ public class OrderDAO {
         pstmt.setString(2, order.getStatus());
         pstmt.setDouble(3, order.getTotal());
         pstmt.setLong(4, order.getCustomerId());
+        pstmt.setObject(5, order.getItems());
 
         pstmt.executeUpdate();
         pstmt.close();

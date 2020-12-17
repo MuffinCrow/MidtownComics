@@ -3,6 +3,9 @@ package org.ucvts.comics.view;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -328,5 +331,31 @@ public class PaymentForm extends JPanel {
                 "WI",
                 "WY"
         };
+    }
+
+    public String[] getPName() {
+        String temp = nameField.getText();
+        String[] temp2 = temp.split(" ");
+        return temp2;
+    }
+
+    public String getPAddress() {
+        return streetAddressField.getText();
+    }
+
+    public String getPCity() {
+        return cityField.getText();
+    }
+
+    public String getPState() {
+        return (String) stateDropdown.getSelectedItem();
+    }
+
+    public String getPPostalCode() {
+        return postalCodeField.getText();
+    }
+
+    public void makeCustomerFromForm() {
+        System.out.println("Hey");
     }
 }

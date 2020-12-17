@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 
 import org.ucvts.comics.MidtownComics;
 import org.ucvts.comics.controller.ViewManager;
+import org.ucvts.comics.dao.OrderDAO;
 
 @SuppressWarnings("serial")
 public class CartView extends JPanel implements ActionListener {

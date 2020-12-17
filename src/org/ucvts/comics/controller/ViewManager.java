@@ -10,6 +10,7 @@ import org.ucvts.comics.MidtownComics;
 import org.ucvts.comics.dao.DAO;        // this is a new import statement
 import org.ucvts.comics.dao.OrderDAO;
 import org.ucvts.comics.dao.ProductDAO; // this is a new import statement
+import org.ucvts.comics.model.Customer;
 import org.ucvts.comics.model.Order;
 import org.ucvts.comics.model.OrderItem;
 import org.ucvts.comics.model.Product;
@@ -252,6 +253,31 @@ public class ViewManager {
 
             product.setCopies(copies - quantity);
             modifyProductInInventory(product);
+        }
+        try {
+            OrderDAO.insertOrder(manager.getOrder());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        order = null;
+        clearOrder();
+    }
+
+    public void submitOrder(Customer customer) throws SQLException {
+        for (int i = 0; i < order.getItems().size(); i++) {
+            OrderItem item = order.getItems().get(i);
+            Product product = item.getProduct();
+            int quantity = item.getQuantity();
+            int copies = product.getCopies();
+
+            product.setCopies(copies - quantity);
+            modifyProductInInventory(product);
+        }
+        try {
+            OrderDAO.insertOrder(manager.getOrder());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         order = null;

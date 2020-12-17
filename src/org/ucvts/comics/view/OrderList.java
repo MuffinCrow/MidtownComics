@@ -90,6 +90,14 @@ public class OrderList extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        JButton source = (JButton) e.getSource();
 
+        if (source.equals(viewCart)) {
+            manager.switchTo(MidtownComics.CartView);
+        } else if (source.equals(viewCustomer)) {
+            manager.switchTo(MidtownComics.CustomerList);
+        } else if (source.equals(inventoryView)) {
+            manager.switchTo(MidtownComics.InventoryView);
+        }
     }
 }

@@ -2,6 +2,7 @@ package org.ucvts.comics.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
 
@@ -42,6 +43,17 @@ public class Order {
                  double total)
     {
         this.orderId = orderId;
+        this.customer = customer;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.items = items;
+        this.total = total;
+    }
+
+    public Order(Customer customer, long orderDate, String status, ArrayList<OrderItem> items,
+                 double total)
+    {
+        this.orderId = Order.lastOrderId++;
         this.customer = customer;
         this.orderDate = orderDate;
         this.status = status;
@@ -145,6 +157,7 @@ public class Order {
      */
 
     public double getTotal() {
+        updateTotal();
         return total;
     }
 
@@ -182,11 +195,14 @@ public class Order {
 
     public long getCustomerId() { return this.customer.getCustomerId(); }
 
-    public void  setCustomerId(long customerId) { this.customer.setCustomerId(customerId);}
+    public void setCustomerId(long customerId) { this.customer.setCustomerId(customerId);}
 
     public void setOrderId(long orderId) { this.orderId = orderId; }
 
     public void setOrderDate(long orderDate) { this.orderDate = orderDate; }
 
     public void setTotal(double total) { this.total = total; }
+
+    public void setItems(List<OrderItem> item) { this.items = items; }
+
 }

@@ -89,7 +89,7 @@ public class OrderEdit extends JPanel implements ActionListener{
         JButton source = (JButton) e.getSource();
 
         if (source.equals(save)) {
-            manager.modifyOrder(orderFormForm.getOrderFromFields());
+            manager.modifyOrder(orderForm.getOrderFromFields());
         } else if (source.equals(remove)) {
             try {
                 OrderDAO.deleteOrder(order);

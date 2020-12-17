@@ -49,6 +49,20 @@ public class Customer {
         this.postalCode = postalCode;
     }
 
+    public Customer(String firstName, String lastName, long phone, String email, String streetAddress,
+                    String city, String state, String postalCode)
+    {
+        this.customerId = Customer.lastCustomerId++;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+        this.streetAddress = streetAddress;
+        this.city = city;
+        this.state = state;
+        this.postalCode = postalCode;
+    }
+
     /**
      * Returns the customer ID.
      *
