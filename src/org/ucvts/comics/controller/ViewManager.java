@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ucvts.comics.MidtownComics;
+import org.ucvts.comics.dao.CustomerDAO;
 import org.ucvts.comics.dao.DAO;        // this is a new import statement
 import org.ucvts.comics.dao.OrderDAO;
 import org.ucvts.comics.dao.ProductDAO; // this is a new import statement
@@ -380,6 +381,26 @@ public class ViewManager {
     }
 
     private void refreshOrderList() throws SQLException {
-        ((OrderList) views.getComponent(MidtownComics.OrderViewIndex)).refreshOrderList();
+        ((OrderList) views.getComponent(MidtownComics.OrderListIndex)).refreshOrderList();
     }
+
+    public void attachCustomer(Customer c) {
+        ((CustomerEdit) views.getComponent(MidtownComics.CustomerEditIndex)).setCustomer(c);
+    }
+
+    private void detachCustomer() { ((CustomerEdit) views.getComponent(MidtownComics.CustomerEditIndex)).setCustomer(null); }
+
+    public void modifyCustomer(Customer c) {
+        try {
+            CustomerDAO.updateCustomer(c);
+
+            detachCustomer();
+            refreshCustomerList();
+            switchTo(MidtownComics.CustomerList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void refreshCustomerList() throws SQLException { ((CustomerList) views.getComponent(MidtownComics.CustomerListIndex)).refreshCustomerList(); }
 }

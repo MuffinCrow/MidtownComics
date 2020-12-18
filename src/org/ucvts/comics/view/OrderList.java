@@ -75,7 +75,6 @@ public class OrderList extends JPanel implements ActionListener{
         panel.setBorder(new EmptyBorder(10,15,15,15));
 
         viewCart = new JButton("Proceed to Cart");
-        viewCart.putClientProperty("id", -1L);
         viewCart.addActionListener(this);
 
         panel.add(viewCart, BorderLayout.EAST);
