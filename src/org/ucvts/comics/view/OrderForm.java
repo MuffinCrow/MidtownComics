@@ -152,7 +152,7 @@ public class OrderForm extends JPanel{
 
         for (int i = 0; i < order.getItems().size(); i++) {
             OrderFormItemPanel ofip = new OrderFormItemPanel(order.getItems().get(i));
-            this.add(body);
+            ofip.add(body);
         }
     }
 

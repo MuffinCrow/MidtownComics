@@ -16,6 +16,7 @@ import javax.swing.border.EmptyBorder;
 import org.ucvts.comics.MidtownComics;
 import org.ucvts.comics.controller.ViewManager;
 import org.ucvts.comics.dao.CustomerDAO;
+import org.ucvts.comics.model.Customer;
 
 public class CustomerList extends JPanel implements ActionListener{
 
@@ -24,8 +25,9 @@ public class CustomerList extends JPanel implements ActionListener{
     private JButton viewOrder;
     private JButton inventoryView;
     private JButton viewCart;
+    private JButton createCustomer;
 
-    public CustomerList(ViewManager manager) {
+    public CustomerList(ViewManager manager) throws SQLException {
         super(new BorderLayout());
 
         this.manager = manager;
@@ -77,7 +79,11 @@ public class CustomerList extends JPanel implements ActionListener{
         viewCart = new JButton("Proceed to Cart");
         viewCart.addActionListener(this);
 
+        createCustomer = new JButton("Create new Customer");
+        createCustomer.addActionListener(this);
+
         panel.add(viewCart, BorderLayout.EAST);
+        panel.add(createCustomer, BorderLayout.WEST);
         this.add(panel, BorderLayout.SOUTH);
     }
 
@@ -97,6 +103,10 @@ public class CustomerList extends JPanel implements ActionListener{
             manager.switchTo(MidtownComics.OrderList);
         } else if (source.equals(inventoryView)) {
             manager.switchTo(MidtownComics.InventoryView);
+        } else if (source.equals(inventoryView)) {
+            Customer c = new Customer();
+            manager.attachCustomer(c);
+            manager.switchTo(MidtownComics.CustomerEdit);
         }
     }
 }

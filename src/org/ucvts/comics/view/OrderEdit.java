@@ -19,7 +19,7 @@ import org.ucvts.comics.dao.OrderDAO;
 import org.ucvts.comics.model.Product;
 import org.ucvts.comics.model.Order;
 
-public class OrderEdit extends JPanel implements ActionListener{
+public class OrderEdit extends JPanel implements ActionListener {
 
     private ViewManager manager;
     private OrderForm orderForm;

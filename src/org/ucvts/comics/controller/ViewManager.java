@@ -388,7 +388,7 @@ public class ViewManager {
         ((CustomerEdit) views.getComponent(MidtownComics.CustomerEditIndex)).setCustomer(c);
     }
 
-    private void detachCustomer() { ((CustomerEdit) views.getComponent(MidtownComics.CustomerEditIndex)).setCustomer(null); }
+    public void detachCustomer() { ((CustomerEdit) views.getComponent(MidtownComics.CustomerEditIndex)).setCustomer(null); }
 
     public void modifyCustomer(Customer c) {
         try {

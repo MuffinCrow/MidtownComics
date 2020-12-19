@@ -22,6 +22,8 @@ import org.ucvts.comics.model.Customer;
 import org.ucvts.comics.view.CustomerList;
 import org.ucvts.comics.dao.CustomerDAO;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class CustomerItemPanel extends JPanel implements ActionListener {
 
     private ViewManager manager;
@@ -31,7 +33,7 @@ public class CustomerItemPanel extends JPanel implements ActionListener {
 
         this.manager = manager;
         this.init(customer);
-        this.setMaximumSize(new Dimension((Integer.MAX_VALUE, 100));
+        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
     }
 
     private void init(Customer c) {

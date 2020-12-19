@@ -1,5 +1,7 @@
 package org.ucvts.comics.view;
 
+import org.ucvts.comics.model.Customer;
+
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -356,6 +358,23 @@ public class PaymentForm extends JPanel {
     }
 
     public void makeCustomerFromForm() {
-        System.out.println("Hey");
+        new Customer(
+                getCustomerName()[0],
+                getCustomerName()[1],
+                null,
+                streetAddressField.getText().trim(),
+                cityField.getText().trim(),
+                getStates()[stateDropdown.getSelectedIndex()],
+                postalCodeField.getText().trim()
+        );
+    }
+
+    private String[] getCustomerName() {
+        String temp = nameField.getText().trim();
+        String[] tempA = temp.split(" ");
+        for (String s : tempA) {
+            s.replaceAll(" ", "");
+        }
+        return tempA;
     }
 }
