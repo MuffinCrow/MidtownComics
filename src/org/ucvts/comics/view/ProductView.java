@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -122,9 +123,17 @@ public class ProductView extends JPanel implements ActionListener {
 
         if (source.equals(save)) {
             if (product == null) {
-                manager.addProductToInventory(productForm.getProductFromFields());
+                try {
+                    manager.addProductToInventory(productForm.getProductFromFields());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             } else {
-                manager.modifyProductInInventory(productForm.getProductFromFields());
+                try {
+                    manager.modifyProductInInventory(productForm.getProductFromFields());
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         } else if (source.equals(remove)) {
             manager.removeProductFromInventory(product);

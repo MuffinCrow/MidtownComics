@@ -50,7 +50,7 @@ public class CustomerForm extends JPanel{
         postalField.setText(c.getPostalCode());
     }
 
-    public Customer getCustomerFromFields() {
+    public Customer getCustomerFromFields() throws SQLException {
         if (customerIdField.getText().trim().isEmpty()) {
             return new Customer(
                     getCustomerName()[0],

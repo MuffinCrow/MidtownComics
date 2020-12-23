@@ -87,20 +87,40 @@ public class OrderFormItemPanel extends JPanel implements ActionListener{
         for (OrderItem i : order.getItems()) {
             if (id.longValue() == i.getItemId() && (temp + 1) == order.getItems().size()) {
                 if (temp == 0) {
-                    order.setItems(new ArrayList<>());
+                    try {
+                        order.setItems(new ArrayList<>());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 } else {
-                    order.setItems(order.getItems().subList(0, temp));
+                    try {
+                        order.setItems(order.getItems().subList(0, temp));
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             } else if (id.longValue() == i.getItemId() && temp == 0) {
                 if (order.getItems().size() > 1) {
-                    order.setItems(order.getItems().subList(1, order.getItems().size() + 1));
+                    try {
+                        order.setItems(order.getItems().subList(1, order.getItems().size() + 1));
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 } else {
-                    order.setItems(new ArrayList<>());
+                    try {
+                        order.setItems(new ArrayList<>());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 }
             } else {
                 List<OrderItem> tempI = order.getItems();
                 tempI.remove(temp);
-                order.setItems(tempI);
+                try {
+                    order.setItems(tempI);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
             temp++;
         }

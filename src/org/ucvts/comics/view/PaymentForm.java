@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -357,7 +358,7 @@ public class PaymentForm extends JPanel {
         return postalCodeField.getText();
     }
 
-    public void makeCustomerFromForm() {
+    public void makeCustomerFromForm() throws SQLException {
         new Customer(
                 getCustomerName()[0],
                 getCustomerName()[1],

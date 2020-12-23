@@ -1,5 +1,9 @@
 package org.ucvts.comics.model;
 
+import org.ucvts.comics.dao.ProductDAO;
+
+import java.sql.SQLException;
+
 public class Product {
 
     private static long lastProductId = 1L; // initial product ID
@@ -16,8 +20,9 @@ public class Product {
      * Creates a default instance of the Product class.
      */
 
-    public Product() {
+    public Product() throws SQLException {
         this.productId = Product.lastProductId++; // auto-generate ID
+        ProductDAO.insertProduct(this);
     }
 
     /**
@@ -33,8 +38,7 @@ public class Product {
      */
 
     public Product(long productId, String title, String author, long releaseDate, int issue, double unitPrice,
-                   int copies)
-    {
+                   int copies) throws SQLException {
         this.productId = productId;
         this.title = title;
         this.author = author;
@@ -42,6 +46,7 @@ public class Product {
         this.issue = issue;
         this.unitPrice = unitPrice;
         this.copies = copies;
+        ProductDAO.insertProduct(this);
     }
 
     /**
@@ -55,7 +60,7 @@ public class Product {
      * @param copies      the number of remaining copies
      */
 
-    public Product(String title, String author, long releaseDate, int issue, double unitPrice, int copies) {
+    public Product(String title, String author, long releaseDate, int issue, double unitPrice, int copies) throws SQLException {
         this.productId = Product.lastProductId++; // auto-generate ID
         this.title = title;
         this.author = author;
@@ -63,6 +68,7 @@ public class Product {
         this.issue = issue;
         this.unitPrice = unitPrice;
         this.copies = copies;
+        ProductDAO.insertProduct(this);
     }
 
     /**
@@ -131,8 +137,9 @@ public class Product {
      * @param unitPrice the new price
      */
 
-    public void setUnitPrice(double unitPrice) {
+    public void setUnitPrice(double unitPrice) throws SQLException {
         this.unitPrice = unitPrice;
+        ProductDAO.updateProduct(this);
     }
 
     /**
@@ -151,17 +158,33 @@ public class Product {
      * @param copies the new number of copies
      */
 
-    public void setCopies(int copies) {
+    public void setCopies(int copies) throws SQLException {
         this.copies = copies;
+        ProductDAO.updateProduct(this);
     }
 
-    public void setProductId(long productId) { this.productId = productId; }
+    public void setProductId(long productId) throws SQLException {
+        this.productId = productId;
+        ProductDAO.updateProduct(this);
+    }
 
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) throws SQLException {
+        this.title = title;
+        ProductDAO.updateProduct(this);
+    }
 
-    public void setAuthor(String author) { this.author = author; }
+    public void setAuthor(String author) throws SQLException {
+        this.author = author;
+        ProductDAO.updateProduct(this);
+    }
 
-    public void setReleaseDate(long releaseDate) { this.releaseDate = releaseDate; }
+    public void setReleaseDate(long releaseDate) throws SQLException {
+        this.releaseDate = releaseDate;
+        ProductDAO.updateProduct(this);
+    }
 
-    public void setIssue(int issue) { this.issue = issue; }
+    public void setIssue(int issue) throws SQLException {
+        this.issue = issue;
+        ProductDAO.updateProduct(this);
+    }
 }

@@ -150,7 +150,7 @@ public class ViewManager {
      * @param item the item to be added
      */
 
-    public void addItemToOrder(OrderItem item) {
+    public void addItemToOrder(OrderItem item) throws SQLException {
         if (order == null) {
             order = new Order();
         }
@@ -168,7 +168,7 @@ public class ViewManager {
      * @param quantity the new quantity
      */
 
-    public void modifyItemQuantityInOrder(Product product, int quantity) {
+    public void modifyItemQuantityInOrder(Product product, int quantity) throws SQLException {
         int index = findItemInOrder(product);
         order.getItems().get(index).setQuantity(quantity);
 
@@ -184,7 +184,7 @@ public class ViewManager {
      * @param product the product to be removed
      */
 
-    public void removeItemFromOrder(Product product) {
+    public void removeItemFromOrder(Product product) throws SQLException {
         int index = findItemInOrder(product);
         order.getItems().remove(index);
 
@@ -331,7 +331,7 @@ public class ViewManager {
      * Updates the order total in the OrderView.
      */
 
-    private void updateOrderTotal() {
+    private void updateOrderTotal() throws SQLException {
         ((OrderView) views.getComponent(MidtownComics.OrderViewIndex)).updateOrderTotal(order.getTotal());
     }
 
@@ -360,7 +360,7 @@ public class ViewManager {
         return -1;
     }
 
-    public void attachOrder(Order order) {
+    public void attachOrder(Order order) throws SQLException {
         ((OrderEdit) views.getComponent(MidtownComics.OrderEditIndex)).setOrder(order);
     }
 
@@ -376,7 +376,7 @@ public class ViewManager {
         }
     }
 
-    public void detachOrder() {
+    public void detachOrder() throws SQLException {
         ((OrderEdit) views.getComponent(MidtownComics.OrderEditIndex)).setOrder(null);
     }
 

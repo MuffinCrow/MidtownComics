@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -81,7 +82,7 @@ public class ProductForm extends JPanel {
      * @return a product
      */
 
-    public Product getProductFromFields() {
+    public Product getProductFromFields() throws SQLException {
         if (productIdField.getText().trim().isEmpty()) {
             return new Product(
                     titleField.getText(),

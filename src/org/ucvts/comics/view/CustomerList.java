@@ -104,7 +104,12 @@ public class CustomerList extends JPanel implements ActionListener{
         } else if (source.equals(inventoryView)) {
             manager.switchTo(MidtownComics.InventoryView);
         } else if (source.equals(inventoryView)) {
-            Customer c = new Customer();
+            Customer c = null;
+            try {
+                c = new Customer();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             manager.attachCustomer(c);
             manager.switchTo(MidtownComics.CustomerEdit);
         }

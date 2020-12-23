@@ -33,7 +33,7 @@ public class OrderForm extends JPanel{
 
     public OrderForm(Order order) { this.init(order); }
 
-    public void updateFields(Order order) {
+    public void updateFields(Order order) throws SQLException {
         if (order == null) {
             clearFields();
 

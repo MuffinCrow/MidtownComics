@@ -87,7 +87,11 @@ public class CustomerEdit extends JPanel implements ActionListener {
         JButton source = (JButton) e.getSource();
 
         if (source.equals(save) && form.getCustomerId().trim() != null) {
-            manager.modifyCustomer(form.getCustomerFromFields());
+            try {
+                manager.modifyCustomer(form.getCustomerFromFields());
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         } else if (source.equals(save) && form.getCustomerId().trim() == null) {
             try {
                 CustomerDAO.insertCustomer(customer);

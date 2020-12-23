@@ -42,7 +42,7 @@ public class OrderEdit extends JPanel implements ActionListener {
         initFooter();
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Order order) throws SQLException {
         this.order = order;
 
         remove.setEnabled(true);
@@ -97,7 +97,11 @@ public class OrderEdit extends JPanel implements ActionListener {
                 throwables.printStackTrace();
             }
         } else if (source.equals(cancel)) {
-            manager.detachOrder();
+            try {
+                manager.detachOrder();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             manager.switchTo(MidtownComics.OrderList);
         }
     }

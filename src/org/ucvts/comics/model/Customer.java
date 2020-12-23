@@ -1,5 +1,9 @@
 package org.ucvts.comics.model;
 
+import org.ucvts.comics.dao.CustomerDAO;
+
+import java.sql.SQLException;
+
 public class Customer {
 
     private static long lastCustomerId = 1L; // initial customer ID
@@ -18,8 +22,9 @@ public class Customer {
      * Creates a default instance of the Customer class.
      */
 
-    public Customer() {
-        this.customerId = Customer.lastCustomerId++; // auto-generate ID
+    public Customer() throws SQLException {
+        this.customerId = Customer.lastCustomerId++;
+        CustomerDAO.insertCustomer(this);// auto-generate ID
     }
 
     /**
@@ -36,8 +41,7 @@ public class Customer {
      */
 
     public Customer(long customerId, String firstName, String lastName, long phone, String email, String streetAddress,
-                    String city, String state, String postalCode)
-    {
+                    String city, String state, String postalCode) throws SQLException {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,11 +51,11 @@ public class Customer {
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
+        CustomerDAO.insertCustomer(this);
     }
 
     public Customer(String firstName, String lastName, long phone, String email, String streetAddress,
-                    String city, String state, String postalCode)
-    {
+                    String city, String state, String postalCode) throws SQLException {
         this.customerId = Customer.lastCustomerId++;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -61,11 +65,11 @@ public class Customer {
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
+        CustomerDAO.insertCustomer(this);
     }
 
     public Customer(String firstName, String lastName, String email, String streetAddress,
-                    String city, String state, String postalCode)
-    {
+                    String city, String state, String postalCode) throws SQLException {
         this.customerId = Customer.lastCustomerId++;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,6 +79,7 @@ public class Customer {
         this.city = city;
         this.state = state;
         this.postalCode = postalCode;
+        CustomerDAO.insertCustomer(this);
     }
 
     /**
@@ -103,8 +108,9 @@ public class Customer {
      * @param firstName the new first name
      */
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName) throws SQLException {
         this.firstName = firstName;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -123,8 +129,9 @@ public class Customer {
      * @param lastName the new last name
      */
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName) throws SQLException {
         this.lastName = lastName;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -143,8 +150,9 @@ public class Customer {
      * @param phone the new phone number
      */
 
-    public void setPhone(long phone) {
+    public void setPhone(long phone) throws SQLException {
         this.phone = phone;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -163,8 +171,9 @@ public class Customer {
      * @param email the new email address
      */
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws SQLException {
         this.email = email;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -183,8 +192,9 @@ public class Customer {
      * @param streetAddress the new street address
      */
 
-    public void setStreetAddress(String streetAddress) {
+    public void setStreetAddress(String streetAddress) throws SQLException {
         this.streetAddress = streetAddress;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -203,8 +213,9 @@ public class Customer {
      * @param city the new city
      */
 
-    public void setCity(String city) {
+    public void setCity(String city) throws SQLException {
         this.city = city;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -223,8 +234,9 @@ public class Customer {
      * @param state the new state
      */
 
-    public void setState(String state) {
+    public void setState(String state) throws SQLException {
         this.state = state;
+        CustomerDAO.updateCustomer(this);
     }
 
     /**
@@ -243,9 +255,13 @@ public class Customer {
      * @param postalCode the new postalCode
      */
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(String postalCode) throws SQLException {
         this.postalCode = postalCode;
+        CustomerDAO.updateCustomer(this);
     }
 
-    public void setCustomerId(long customerId) { this.customerId = customerId; }
+    public void setCustomerId(long customerId) throws SQLException {
+        this.customerId = customerId;
+        CustomerDAO.updateCustomer(this);
+    }
 }

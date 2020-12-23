@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -106,9 +107,17 @@ public class CartItemPanel extends JPanel implements ActionListener {
             int quantity = (int) combo.getSelectedItem();
 
             if (quantity == 0) {
-                manager.removeItemFromOrder(product);
+                try {
+                    manager.removeItemFromOrder(product);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             } else {
-                manager.modifyItemQuantityInOrder(product, quantity);
+                try {
+                    manager.modifyItemQuantityInOrder(product, quantity);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
             }
         }
     }

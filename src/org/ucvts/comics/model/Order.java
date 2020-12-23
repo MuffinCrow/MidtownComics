@@ -1,5 +1,8 @@
 package org.ucvts.comics.model;
 
+import org.ucvts.comics.dao.OrderDAO;
+
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +22,14 @@ public class Order {
      * Creates a default instance of the Order class.
      */
 
-    public Order() {
+    public Order() throws SQLException {
         this.orderId = Order.lastOrderId++; // auto-generate ID
         this.customer = new Customer();
         this.orderDate = getDate();
         this.status = "Open";
         this.items = new ArrayList<>();
         this.total = 0;
+        OrderDAO.insertOrder(this);
     }
 
     /**
@@ -40,25 +44,25 @@ public class Order {
      */
 
     public Order(long orderId, Customer customer, long orderDate, String status, ArrayList<OrderItem> items,
-                 double total)
-    {
+                 double total) throws SQLException {
         this.orderId = orderId;
         this.customer = customer;
         this.orderDate = orderDate;
         this.status = status;
         this.items = items;
         this.total = total;
+        OrderDAO.insertOrder(this);
     }
 
     public Order(Customer customer, long orderDate, String status, ArrayList<OrderItem> items,
-                 double total)
-    {
+                 double total) throws SQLException {
         this.orderId = Order.lastOrderId++;
         this.customer = customer;
         this.orderDate = orderDate;
         this.status = status;
         this.items = items;
         this.total = total;
+        OrderDAO.insertOrder(this);
     }
 
     /**
@@ -67,13 +71,14 @@ public class Order {
      * @param item the item to be added
      */
 
-    public void addItem(OrderItem item) {
+    public void addItem(OrderItem item) throws SQLException {
         if (items == null) {
             items = new ArrayList<>();
         }
 
         items.add(item);
         this.updateTotal();
+        OrderDAO.updateOrder(this);
     }
 
     /**
@@ -82,12 +87,13 @@ public class Order {
      * @param item the item to be removed
      */
 
-    public void removeItem(OrderItem item) {
+    public void removeItem(OrderItem item) throws SQLException {
         if (items != null) {
             items.remove(item);
         }
 
         this.updateTotal();
+        OrderDAO.updateOrder(this);
     }
 
     /**
@@ -136,8 +142,9 @@ public class Order {
      * @param status the new status
      */
 
-    public void setStatus(String status) {
+    public void setStatus(String status) throws SQLException {
         this.status = status;
+        OrderDAO.updateOrder(this);
     }
 
     /**
@@ -156,7 +163,7 @@ public class Order {
      * @return total
      */
 
-    public double getTotal() {
+    public double getTotal() throws SQLException {
         updateTotal();
         return total;
     }
@@ -179,7 +186,7 @@ public class Order {
      * Updates the order total using the price of each item.
      */
 
-    private void updateTotal() {
+    private void updateTotal() throws SQLException {
         if (items == null) {
             this.total = 0;
         } else {
@@ -191,18 +198,34 @@ public class Order {
 
             this.total = total;
         }
+        OrderDAO.updateOrder(this);
     }
 
     public long getCustomerId() { return this.customer.getCustomerId(); }
 
-    public void setCustomerId(long customerId) { this.customer.setCustomerId(customerId);}
+    public void setCustomerId(long customerId) throws SQLException {
+        this.customer.setCustomerId(customerId);
+        OrderDAO.updateOrder(this);
+    }
 
-    public void setOrderId(long orderId) { this.orderId = orderId; }
+    public void setOrderId(long orderId) throws SQLException {
+        this.orderId = orderId;
+        OrderDAO.updateOrder(this);
+    }
 
-    public void setOrderDate(long orderDate) { this.orderDate = orderDate; }
+    public void setOrderDate(long orderDate) throws SQLException {
+        this.orderDate = orderDate;
+        OrderDAO.updateOrder(this);
+    }
 
-    public void setTotal(double total) { this.total = total; }
+    public void setTotal(double total) throws SQLException {
+        this.total = total;
+        OrderDAO.updateOrder(this);
+    }
 
-    public void setItems(List<OrderItem> item) { this.items = items; }
+    public void setItems(List<OrderItem> item) throws SQLException {
+        this.items = items;
+        OrderDAO.updateOrder(this);
+    }
 
 }
